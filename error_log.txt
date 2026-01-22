@@ -1,0 +1,114 @@
+Error in row 0:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
+    return await func(session, row)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 182, in situation
+    llm_response = await call_llm(session, prompt)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
+    obj = json.loads(content)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 145)
+
+
+Error in row 3:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
+    return await func(session, row)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 182, in situation
+    llm_response = await call_llm(session, prompt)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
+    obj = json.loads(content)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 67)
+
+
+Error in row 3:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
+    return await func(session, row)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 247, in conversational_styles
+    llm_response = await call_llm(session, prompt)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
+    obj = json.loads(content)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 102)
+
+
+Error in row 21:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
+    return await func(session, row)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 201, in intermediate_beliefs
+    llm_response = await call_llm(session, prompt)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
+    obj = json.loads(content)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 117)
+
+
+Error in row 29:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
+    return await func(session, row)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 201, in intermediate_beliefs
+    llm_response = await call_llm(session, prompt)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
+    obj = json.loads(content)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 205)
+
+
+Error in row 29:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
+    return await func(session, row)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 247, in conversational_styles
+    llm_response = await call_llm(session, prompt)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
+    obj = json.loads(content)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 116)
+
+
