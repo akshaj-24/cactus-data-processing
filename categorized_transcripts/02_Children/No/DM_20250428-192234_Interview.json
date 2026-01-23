@@ -1,0 +1,26 @@
+[
+    {
+        "role": "assistant",
+        "content": "Good day, I am Dr. Shu Zhen Pan\u2019s Interview Assistant and I was asked to connect with you before your appointment on March 27 at the medical clinic. My goal is to gather some background information for the doctor.\nI am an AI Assistant and in compliance with confidentiality regulations (BC Protection of Privacy), the data transmission for this interview and analysis is located in Canada, and all information I gather will be stored privately and only available for Dr. Shu Zhen Pan to review. Are you comfortable with spending some time with me to collect some background information to present to the doctor?"
+    },
+    {
+        "role": "user",
+        "content": "\"Yes, I'm comfortable with spending some time with you to collect background information. However, I might need some reassurance that everything discussed will remain confidential and only be shared with Dr. Shu Zhen Pan.\""
+    },
+    {
+        "role": "assistant",
+        "content": "Thank you for sharing your concern about confidentiality. I want to assure you that all information gathered during this conversation will be kept confidential and only shared with Dr. Shu Zhen Pan, as per our confidentiality agreement. Your comfort and trust are important to us.\n\nMoving forward, could you please tell me a bit about yourself? What is your full name, preferred name (if different), date of birth, sex, and handedness (left, right, or both)?"
+    },
+    {
+        "role": "user",
+        "content": "\"My full name is Gergely J. Szabo. I don't have a preferred name different from my full name. My date of birth is October 25, 1997. I am male, and I'm right-handed.\""
+    },
+    {
+        "role": "assistant",
+        "content": "<STOP>"
+    },
+    {
+        "role": "assistant",
+        "content": "Here are the edited notes:\n\nConfidentiality concerns: Patient is willing to share information but needs reassurance about confidentiality and data sharing.\nFull name: Gergely J. Szabo\nPreferred name: Same as full name\nDate of birth: October 25, 1997\nSex: Male\nHandedness: Right-handed\n\nThank you for taking the time to participate in this interview.\n\n<STOP>"
+    }
+]
