@@ -1,14 +1,15 @@
 import re
 import sys
 import pandas as pd
-from langchain_ollama import OllamaLLM
-from langchain_core.prompts import ChatPromptTemplate
+# from langchain_ollama import OllamaLLM
+# from langchain_core.prompts import ChatPromptTemplate
 from ollama import Client
 import traceback
 import json
 import requests
 import aiohttp
 import asyncio
+from typing import NamedTuple
 
 client = Client(host='http://localhost:11434')
 
@@ -130,11 +131,23 @@ df[["patient_name",
 
 print("Adjusted patient context and extracted demographics.")
 
+class LLMConfig(NamedTuple):
+    temperature: float
+    top_p: float
+    top_k: int
+
+default_config = LLMConfig(temperature=0.4,
+    top_p = 0.9,
+    top_k = 40)
+
+conversation_config = LLMConfig(temperature=0.4,
+    top_p = 0.9,
+    top_k = 40)
 BASE_URL = "http://localhost:11434"
 MODEL = "qwen3:32b"
-temperature = 0.4
-top_p = 0.9
-top_k = 40
+# temperature = 0.4
+# top_p = 0.9
+# top_k = 40
 
 # Simple ASCII: tab/newline + printable ASCII (0x20-0x7E)
 ascii_schema = {
@@ -158,9 +171,9 @@ async def call_llm(session, prompt: str) -> str:
         ],
         "format": ascii_schema,
         "stream": False,
-        "options": {"temperature": temperature,
-                    "top_p": top_p,
-                    "top_k": top_k},
+        "options": {"temperature": default_config.temperature,
+                    "top_p": default_config.top_p,
+                    "top_k": default_config.top_k},
     }
 
     async with session.post(f"{BASE_URL}/api/chat", json=payload, timeout=120) as resp:
@@ -207,10 +220,6 @@ async def intermediate_beliefs(session, row):
     result = result.strip('\'"')
     print(result)
     return result
-
-temperature=0.6
-top_p=0.95
-top_k=20
 
 async def conversational_styles(session, row):
     prompt = f"""
