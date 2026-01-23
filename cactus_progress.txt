@@ -13,3 +13,41 @@ Processed row 21/4057: 10021
 I do not currently have friends. I believe that without friends, my life will be meaningless. I am convinced that my situation is worse than it actually is and that I am unable to make any positive changes. I focus only on the negative aspects of my life and assume that this pattern will continue indefinitely. I believe that my lack of friends is solely my fault and that I am completely incapable of forming meaningful relationships.
 Processed row 29/4057: 10029
 I went to the dog park and did not make any new friends.
+I frequent this animal shelter. All of the animals remembered me except a few.
+I believe that if the animals don't greet me warmly, it means they hate me, and I am a bad person for not remembering them.
+['anxious', 'guilty', 'self-blaming', 'avoidant', 'catastrophizing', 'people-pleasing']
+Processed row 0/4057: 10000
+I am really into my crystals. People think I am weird.
+If I express my interest in crystals, people will judge me and think I'm weird, so I should avoid discussing it to prevent being judged.
+Processed row 3/4057: 10003
+I frequent this animal shelter. All of the animals remembered me except a few. I can never go back there again because they will hate me.
+Exception in intermediate_beliefs. Retrying...
+I believe that if some animals do not remember me, it means I have failed them, and they will hate me, making me unworthy of working with animals.
+Exception in conversational_styles. Retrying...
+['anxious', 'self-blaming', 'catastrophic-framing', 'pessimistic', 'self-critical']
+Processed row 0/4057: 10000
+I am really into my crystals. People think I am weird.
+Exception in intermediate_beliefs. Retrying...
+If I express my interest in crystals, people will judge me negatively, so I should limit my openness about it to avoid being seen as weird.
+Exception in conversational_styles. Retrying...
+Exception in conversational_styles. Retrying...
+['anxious', 'self-blaming', 'people-pleasing', 'conflict-avoidant', 'socially vigilant', 'sensitive-to-rejection', 'catastrophizing-framing']
+Processed row 3/4057: 10003
+I have 8 brothers and while we are close, we don't live near each other. I'm afraid I'll never see them again.
+I must maintain constant contact with my brothers to ensure our relationship stays strong, and any decrease in communication means I am losing them forever.
+Exception in conversational_styles. Retrying...
+['anxious', 'catastrophic-framing', 'pessimistic', 'ruminative', 'self-blaming']
+Processed row 12/4057: 10012
+I believe that everyone in the world thinks I'm a loser and that I will never amount to anything.
+Exception in intermediate_beliefs. Retrying...
+I am fundamentally flawed and unworthy, so people will always see me as a loser and I will never achieve anything.
+Exception in conversational_styles. Retrying...
+Exception in conversational_styles. Retrying...
+['pessimistic', 'self-critical', 'hopeless', 'tearful', 'catastophic-framing']
+Processed row 21/4057: 10021
+I am trying to find friends but I believe that if I don't, my life will be a waste.
+I need to form deep friendships to have a meaningful life, and if I fail, my life will be worthless.
+Exception in conversational_styles. Retrying...
+Exception in conversational_styles. Retrying...
+['pessimistic', 'self-critical', 'catastrophizing', 'socially vigilant', 'sensitive-to-rejection']
+Processed row 29/4057: 10029
