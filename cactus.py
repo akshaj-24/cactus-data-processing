@@ -22,9 +22,11 @@ df.drop(columns=["attitude"], inplace=True)
 cols_except = [col for col in df.columns if col not in ["patterns"]]
 df = df.drop_duplicates(subset=cols_except, keep="first")
 
+df.reset_index(drop=True, inplace=True)
+
 
 df["conversational_styles"]=None #LLM
-df["patient_ID"]=df.index+10000 #auto assign from 10000
+df["patient_ID"]=df.index+1000 #auto assign from 1000
 df["patient_name"]=None #regex
 df["patient_age"]=None #regex
 df["patient_gender"]=None #regex
@@ -37,6 +39,8 @@ df["situation"]=None # LLM
 df.rename(columns={"patterns":"core_beliefs",
                    "thought":"automatic_thoughts",
                    "intake_form": "patient_context"}, inplace=True)
+
+
 
 desired_order = [
     "patient_ID",
@@ -208,9 +212,7 @@ async def intermediate_beliefs(session, row):
     print(result)
     return result
 
-temperature=0.6
-top_p=0.95
-top_k=20
+
 
 async def conversational_styles(session, row):
     prompt = f"""
@@ -291,10 +293,22 @@ async def main():
 
         for idx, row in df.iterrows():
             # --- Your LLM and assignment functions here ---
+            global temperature
+            temperature = 0.4
+            global top_p
+            top_p = 0.9
+            global top_k
+            top_k = 40
+            while row["situation"] is None:
+                row["situation"] = await func_call(situation, session, row)
+            # row["intermediate_beliefs"] = await func_call(intermediate_beliefs, session, row)
+            temperature=0.6
+            top_p=0.95
+            top_k=20
+            # row["conversational_styles"] = await func_call(conversational_styles, session, row)
             
-            row["situation"] = await func_call(situation, session, row)
-            row["intermediate_beliefs"] = await func_call(intermediate_beliefs, session, row)
-            row["conversational_styles"] = await func_call(conversational_styles, session, row)
+            if row["situation"] is None:
+                print("Did not return")
 
             row_dict = row.to_dict()
             results.append(row_dict)
