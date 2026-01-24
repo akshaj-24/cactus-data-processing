@@ -1,0 +1,300 @@
+import pandas as pd
+from faker import Faker
+import re
+import pandas as pd
+from langchain_ollama import OllamaLLM
+from langchain_core.prompts import ChatPromptTemplate
+from ollama import Client
+from ollama import AsyncClient
+import traceback
+import json
+import sys
+import traceback
+import json
+import requests
+import aiohttp
+import asyncio
+from typing import NamedTuple
+
+fake = Faker('en_CA')
+
+class LLMConfig(NamedTuple):
+    temperature: float
+    top_p: float
+    top_k: int
+
+
+client = AsyncClient(host='http://localhost:11434')
+
+default_config = LLMConfig(temperature=0,
+    top_p = 0.8,
+    top_k = 40)
+
+conversation_config = LLMConfig(temperature=0.4,
+    top_p = 0.95,
+    top_k = 20)
+
+config = default_config
+
+#base parameters
+BASE_URL = "http://localhost:11434"
+MODEL = "qwq:latest"
+
+# Simple ASCII: tab/newline + printable ASCII (0x20-0x7E)
+ascii_schema = {
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "pattern": r"^[\t\n -~]*$"
+    }
+  },
+  "required": ["text"],
+  "additionalProperties": False
+}
+
+df = pd.read_json("hf://datasets/Psychotherapy-LLM/CBT-Bench/core_fine_test.json")
+
+df.drop(columns=["id"], inplace=True)
+df.rename(columns={"ori_text": "patient_context",
+                   "thoughts": "automatic_thoughts",
+                   "core_belief_fine_grained": "core_beliefs"}, inplace=True)
+
+df.reset_index(drop=True, inplace=True)
+
+# Add columns for:
+# ID 200 + n
+df["patient_ID"] = df.index + 100
+
+async def call_llm(prompt: str) -> str:
+    """An individual async worker to call the LLM."""
+    response = await client.chat(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": "/no_think You are an assistant that follows the instructions given by the user. Return ONLY JSON matching the schema."},
+            {"role": "user", "content": prompt},
+        ],
+        format=ascii_schema,
+        stream=False,
+        options={"temperature": config.temperature, "top_p": config.top_p, "top_k": config.top_k}
+    )
+    content = response['message']['content']
+#    print(content)
+    return content
+
+async def assign_gender(row):
+    context = row.get("patient_context")
+    prompt = f"""/no_think Based on the following context, determine the most appropriate gender for the patient. Output 'M' for male and 'F' for female. Only output the gender letter and nothing else.
+    Context: {context}
+    --------------------------------------------
+    Output Gender:"""
+    llm_response = await call_llm(prompt)
+    if llm_response:
+        result = llm_response.strip()
+    else:
+        result = ""
+
+    result = result.strip('\'"')
+    print(result)
+    return result
+
+def random_name(row, gender):
+    name = ""
+    if gender.lower() == 'm':
+        name = fake.first_name_male()
+    elif gender.lower() == 'f':
+        name = fake.first_name_female()
+        
+    name += " " + fake.last_name()
+    return name
+
+async def assign_age(row):
+    context = row.get("patient_context")
+    prompt = f"""Based on the following context, determine the most appropriate age for the patient. Output only the age as a number and nothing else.
+    Context: {context}
+    --------------------------------------------
+    Output Age:"""
+    llm_response = await call_llm(prompt)
+    if llm_response:
+        result = llm_response.strip()
+    else:
+        result = ""
+
+    result = result.strip('\'"')
+    print(result)
+    return result
+
+async def assign_marital_status(row, age):
+    context = row.get("patient_context")
+    prompt = f"""Based on the following context, determine the most appropriate marital status for the patient. Output single, married, common-law, divorced, widowed, or separated.
+    Output only the marital status as a string and nothing else.
+    Context: {context}
+    Patient Age: {age}
+    --------------------------------------------
+    Output Marital Status:"""
+    llm_response = await call_llm(prompt)
+    if llm_response:
+        result = llm_response.strip()
+    else:
+        result = ""
+
+    result = result.strip('\'"')
+    print(result)
+    return result
+    
+async def assign_occupation(row, age):
+    context = row.get("patient_context")
+    prompt = f"""Based on the following context, determine if the occupation is mentioned. Output only the occupation as a string or NULL if not mentioned.
+    Context: {context}
+    Patient info, Age: {age}
+    --------------------------------------------
+    Output Occupation:"""
+    llm_response = await call_llm(prompt)
+    if llm_response:
+        result = llm_response.strip()
+    else:
+        result = ""
+
+    result = result.strip('\'"')
+    print(result)
+    return result  
+
+async def assign_education(row, age, occupation):
+    context = row.get("patient_context")
+    prompt = f"""Based on the following context, determine if the education is mentioned. Output only the education as a string or NULL if not mentioned.
+    Context: {context}
+    Patient info, Age: {age}, Occupation: {occupation}
+    --------------------------------------------
+    Output Education:"""
+    llm_response = await call_llm(prompt)
+    if llm_response:
+        result = llm_response.strip()
+    else:
+        result = ""
+
+    result = result.strip('\'"')
+    print(result)
+    return result
+
+async def intermediate_beliefs(row, age, education, occupation):
+    prompt = (
+        f"Patient story:\n{row.get('patient_context', '')}\n\n"
+        f"Core beliefs:\n{row.get('core_beliefs', '')}\n\n"
+        f"Situation:\n{row.get('situation', '')}\n\n"
+        f"Automatic thoughts:\n{row.get('automatic_thoughts', '')}\n\n"
+        f"Patient info, Age: {age}, Education: {education}, Occupation: {occupation}\n\n"
+        "Based on the above, generate a concise intermediate belief consistent with the thought and core beliefs to construct a cognitive model of the patient. "
+        "Only output the intermediate beliefs as a string, nothing else."
+    )
+    llm_response = await call_llm(prompt)
+    if llm_response:
+        result = llm_response.strip()
+    else:
+        result = ""
+
+    result = result.strip('\'"')
+    print(result)
+    return result
+
+async def conversational_styles(row, age, gender, education, occupation):
+    prompt = f"""
+You are labeling "conversational style" for a therapy intake transcript.
+
+DEFINITION:
+Conversational style = HOW the patient speaks (tone, structure, interaction pattern), not the diagnosis and not the cognitive distortion names.
+Choose 3-7 styles from the allowed list. Do not invent new styles.
+
+ALLOWED STYLES (choose only from these):
+anxious, guilty, self-blaming, ruminative, avoidant, reassurance-seeking, shame-based, socially vigilant, sensitive-to-rejection,
+catastrophic-framing, pessimistic, rigid-all-or-nothing, overexplaining, detail-heavy, hesitant, guarded, emotionally intense,
+hopeless, low-energy, tearful, self-critical, people-pleasing, conflict-avoidant
+
+INPUT:
+Patient story:
+{row.get('patient_context', '')}
+
+Core beliefs:
+{row.get('core_beliefs', '')}
+
+Automatic thoughts:
+{row.get('automatic_thoughts', '')}
+
+Age and Gender: {age}, {gender}
+Education and Occupation (if available else NULL): {education}, {occupation}
+
+TASK:
+Return only a comma-separated list of 3-7 styles from the allowed list.
+No extra words, no quotes, no punctuation except commas.
+
+OUTPUT:
+<styles>style1, style2, style3</styles>
+    """
+    llm_response = await call_llm(prompt)
+    if llm_response:
+        result = llm_response.strip()
+    else:
+        result = ""
+
+    result = result.strip('\'"')
+    styles_list = [s.strip() for s in result.split(",") if s.strip()]
+    print(styles_list)
+    return styles_list
+
+jsonl_path = "core_fine_test_results.jsonl"
+csv_path = "core_fine_test_results.csv"
+log_path = "core_fine_test_progress.txt"
+
+class Logger(object):
+    def __init__(self, filename):
+        self.terminal = sys.stdout
+        self.log = open(filename, "a")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):
+        self.terminal.flush()
+        self.log.flush()
+        
+sys.stdout = Logger(log_path)
+results = []
+
+async def process_row(idx, row):
+    gender = await assign_gender(row)
+    row["patient_gender"] = gender
+    name = random_name(row, gender)
+    row["patient_name"] =  name
+    age = await assign_age(row)
+    row["patient_age"] = age
+    marital_status = await assign_marital_status(row, age)
+    row["patient_marital_status"] = marital_status
+    occupation = await assign_occupation(row, age)
+    row["patient_occupation"] = occupation
+    education = await assign_education(row, age, occupation)
+    row["patient_education"] = education
+    intermediate_belief = await intermediate_beliefs(row, age, education, occupation)
+    row["intermediate_beliefs"] = intermediate_belief
+    styles = await conversational_styles(row, age, gender, education, occupation)
+    row["conversational_styles"] = styles
+    
+    print(f"Processed row {idx}/{len(df)}")
+    return row
+    
+
+
+async def main():
+    tasks = [process_row(idx, row) for idx, row in df.iterrows()]
+    results = await asyncio.gather(*tasks)
+    
+    results_dicts = [row.to_dict() for row in results]
+    results_df = pd.DataFrame(results_dicts)
+    results_df.to_json(jsonl_path, orient="records", lines=True)
+    results_df.to_csv(csv_path, index=False)
+    
+    
+    
+    
+asyncio.run(main())
+
+print("Processing complete.")

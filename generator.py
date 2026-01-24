@@ -1,14 +1,3 @@
-import random
-import pandas as pd
-from faker import Faker
-import re
-import pandas as pd
-from langchain_ollama import OllamaLLM
-from langchain_core.prompts import ChatPromptTemplate
-from ollama import Client
-import traceback
-import json
-import sys
 import re
 import sys
 import pandas as pd
@@ -39,7 +28,6 @@ conversation_config = LLMConfig(temperature=0.4,
     top_k = 40)
 
 config = default_config
-fake = Faker('en_CA')
 
 #base parameters
 BASE_URL = "http://localhost:11434"
@@ -58,17 +46,110 @@ ascii_schema = {
   "additionalProperties": False
 }
 
-df = pd.read_json("hf://datasets/Psychotherapy-LLM/CBT-Bench/core_fine_test.json")
-print(df.shape)
 
-df.drop(columns=["id"], inplace=True)
-df.rename(columns={"ori_text": "patient_context",
-                   "thoughts": "automatic_thoughts",
-                   "core_belief_fine_grained": "core_beliefs"}, inplace=True)
+# load cactus dataset
+df = pd.read_json("hf://datasets/LangAGI-Lab/cactus/cactus.json")
 
-# Add columns for:
-# ID 200 + n
-df["patient_ID"] = df.index + 100
+# Drop unnecessary columns
+cols_to_drop = ["cbt_technique", "cbt_plan", "dialogue", "attitude"]
+df.drop(columns=cols_to_drop, inplace=True)
+
+error_log_path = "error_log.txt"
+
+# subset selection
+df = df.drop_duplicates(subset=df.columns.difference(["patterns"]), keep="first")
+
+
+df["conversational_styles"]=None #LLM
+df["patient_ID"]=df.index+10000 #auto assign from 10000
+df["patient_name"]=None #regex
+df["patient_age"]=None #regex
+df["patient_gender"]=None #regex
+df["patient_marital_status"]=None #regex
+df["patient_education"]=None # regex + LLM categorization
+df["patient_occupation"]=None # regex + LLM categorization
+df["intermediate_beliefs"]=None # LLM
+df["situation"]=None # LLM
+
+#print(df.columns)
+df.rename(columns={"patterns":"core_beliefs",
+                   "thought":"automatic_thoughts",
+                   "intake_form": "patient_context"}, inplace=True)
+
+desired_order = [
+    "patient_ID",
+    "patient_name",
+    "patient_age",
+    "patient_gender",
+    "patient_marital_status",
+    "patient_education",
+    "patient_occupation",
+    "patient_context",
+    "conversational_styles",
+    "core_beliefs",
+    "situation",
+    "intermediate_beliefs",
+    "automatic_thoughts",
+]
+
+#df = df.reindex(columns=desired_order)
+
+#print(df)
+
+
+def adjust_context(row):
+    context = str(row["patient_context"])
+    data = {}
+
+    # Define simple field mappings: (key_name, regex_pattern, type_cast_func)
+    fields = [
+        ("patient_name", r"Name:\s*([^\n]+)", str),
+        ("patient_age", r"Age:\s*(\d+)", int),
+        ("patient_gender", r"Gender:\s*([^\n]+)", str),
+        ("patient_marital_status", r"Marital Status:\s*([^\n]+)", str),
+        ("patient_education", r"Education:\s*([^\n]+)", str),
+        ("patient_occupation", r"Occupation:\s*([^\n]+)", str),
+    ]
+
+    for key, pattern, cast in fields:
+        match = re.search(pattern, context)
+        # Extract and cast value
+        val = match.group(1).strip() if match else None
+        data[key] = cast(val) if val and cast else val
+        # Remove the line from context
+        context = re.sub(pattern + r"\n?", "", context)
+
+    # Specific Data Normalization
+    # Gender mapping
+    gender_map = {"male": "m", "female": "f"}
+    data["patient_gender"] = gender_map.get(str(data["patient_gender"]).lower())
+
+    # Marital Status mapping
+    marital_map = {"single": "single", "married": "married"}
+    data["patient_marital_status"] = marital_map.get(
+        str(data["patient_marital_status"]).lower(), "not specified"
+    )
+
+    # Clean up remaining headers/sections in one regex pass
+    sections_to_remove = [
+        r"Family Details:\s*[^\n]+\n?",
+        r"\d\.\s*(Presenting Problem|Reason for Seeking Counseling|Past History|Academic/occupational functioning level|Social Support System)[^:]*:?"
+    ]
+    for section in sections_to_remove:
+        context = re.sub(section, "", context, flags=re.IGNORECASE | re.DOTALL)
+
+    data["patient_context"] = context.strip()
+    return pd.Series(data)
+
+adjusted_cols = [
+    "patient_name", "patient_age", "patient_gender",
+    "patient_marital_status", "patient_education",
+    "patient_occupation", "patient_context"
+]
+
+df[adjusted_cols] = df.apply(adjust_context, axis=1)
+
+print("Adjusted patient context and extracted demographics.")
 
 async def call_llm(session, prompt: str) -> str:
     payload = {
@@ -93,17 +174,15 @@ async def call_llm(session, prompt: str) -> str:
     obj = json.loads(content)
     return obj["text"]
 
-error_log_path = "core_fine_seed_errors.log"
 
-# Gender: LLM call to suggest an appropriate gender based on context
-df["patient_gender"] = None
-
-async def assign_gender(session, row):
-    context = row.get("patient_context")
-    prompt = f"""Based on the following context, determine the most appropriate gender for the patient. Output 'M' for male and 'F' for female. Only output the gender letter and nothing else.
-    Context: {context}
-    --------------------------------------------
-    Output Gender:"""
+async def situation(session, row):
+    prompt = (
+        # f"Patient story:\n{row.get('patient_context', '')}\n\n"
+        f"Core beliefs:\n{row.get('core_beliefs', '')}\n\n"
+        f"Automatic thoughts:\n{row.get('automatic_thoughts', '')}\n\n"
+        "Based on the above, extract a concise, factual description of the situation as experienced by the patient. Do not include emotions, judgments, or interpretations. Only describe what happened. Write the situation in first person as the patient. "
+        "Only output the situation as a string, nothing else."
+    )
     llm_response = await call_llm(session, prompt)
     if llm_response:
         result = llm_response.strip()
@@ -113,118 +192,6 @@ async def assign_gender(session, row):
     result = result.strip('\'"')
     print(result)
     return result
-    
-
-# Name random name generator
-df["patient_name"] = None
-
-def random_name(row):
-    gender = row.get("patient_gender")
-    gender = gender.lower()
-    return fake.first_name_male() if gender=="m" else fake.first_name_female()
-
-# df["patient_name"] = df.apply(lambda row: random_name(row), axis=1)
-
-# Age: LLM call to suggest an appropriate age based on context
-df["patient_age"] = None
-
-async def assign_age(session, row):
-    context = row.get("patient_context")
-    prompt = f"""Based on the following context, determine the most appropriate age for the patient. Output only the age as a number and nothing else.
-    Context: {context}
-    --------------------------------------------
-    Output Age:"""
-    llm_response = await call_llm(session, prompt)
-    if llm_response:
-        result = llm_response.strip()
-    else:
-        result = ""
-
-    result = result.strip('\'"')
-    print(result)
-    return result
-        
-        
-    print(f"processed row index: {row.name} of {df.shape[0]}, assigned age: {result}")
-    return result
-
-
-# Marital Status: LLM call to suggest an appropriate marital status based on context
-df["patient_marital_status"] = None
-
-async def assign_marital_status(session, row):
-    context = row.get("patient_context")
-    prompt = f"""Based on the following context, determine the most appropriate marital status for the patient. Output single, married, common-law, divorced, widowed, or separated.
-    Output only the marital status as a string and nothing else.
-    Context: {context}
-    --------------------------------------------
-    Output Marital Status:"""
-    llm_response = await call_llm(session, prompt)
-    if llm_response:
-        result = llm_response.strip()
-    else:
-        result = ""
-
-    result = result.strip('\'"')
-    print(result)
-    return result
-        
-        
-    print(f"processed row index: {row.name} of {df.shape[0]}, assigned marital status: {result}")
-    return result
-
-# Occupation: LLM call to check if context contains occupation, or NULL
-df["patient_occupation"] = None
-
-async def assign_occupation(session, row):
-    context = row.get("patient_context")
-    prompt = f"""Based on the following context, determine if the occupation is mentioned. Output only the occupation as a string or NULL if not mentioned.
-    Context: {context}
-    --------------------------------------------
-    Output Occupation:"""
-    llm_response = await call_llm(session, prompt)
-    if llm_response:
-        result = llm_response.strip()
-    else:
-        result = ""
-
-    result = result.strip('\'"')
-    print(result)
-    return result
-
-# Education: LLM call to check if context contains education, or NULL
-df["patient_education"] = None
-
-async def assign_education(session, row):
-    context = row.get("patient_context")
-    prompt = f"""Based on the following context, determine if the education is mentioned. Output only the education as a string or NULL if not mentioned.
-    Context: {context}
-    --------------------------------------------
-    Output Education:"""
-    llm_response = await call_llm(session, prompt)
-    if llm_response:
-        result = llm_response.strip()
-    else:
-        result = ""
-
-    result = result.strip('\'"')
-    print(result)
-    return result
-
-# Context: Rename from ori_text
-# Done above
-
-# Situation
-# In dataset
-
-# Core Beliefs
-# In dataset
-
-# Automatic thoughts
-# In dataset
-
-# Attitude
-df["intermediate_beliefs"] = None
 
 async def intermediate_beliefs(session, row):
     prompt = (
@@ -245,12 +212,9 @@ async def intermediate_beliefs(session, row):
     print(result)
     return result
 
-# Conversation Styles: LLM generated
-df["conversation_style"] = None
-
 async def conversational_styles(session, row):
     prompt = f"""
-    You are labeling "conversational style" for a therapy intake transcript.
+You are labeling "conversational style" for a therapy intake transcript.
 
 DEFINITION:
 Conversational style = HOW the patient speaks (tone, structure, interaction pattern), not the diagnosis and not the cognitive distortion names.
@@ -279,7 +243,7 @@ No extra words, no quotes, no punctuation except commas.
 
 OUTPUT:
 <styles>style1, style2, style3</styles>
-    """
+"""
     llm_response = await call_llm(session, prompt)
     if llm_response:
         result = llm_response.strip()
@@ -290,6 +254,15 @@ OUTPUT:
     styles_list = [s.strip() for s in result.split(",") if s.strip()]
     print(styles_list)
     return styles_list
+
+
+# async def func_call(func, session, row):
+#     try:
+#         return await func(session, row)
+#     except Exception as e:
+#         with open(error_log_path, "a") as f:
+#             f.write(f"Error in row {row.name}:\n{traceback.format_exc()}\n\n")
+#         return None
 
 async def func_call(func, session, row, max_retries=3):
     for attempt in range(1, max_retries + 1):
@@ -313,11 +286,11 @@ async def func_call(func, session, row, max_retries=3):
 
     return "FAILED_TO_GENERATE"  # Final sentinel value if all retries fail
 
+
 # Run all functions
-jsonl_path = "core_fine_test_results.jsonl"
-csv_path = "core_fine_test_results.csv"
-xlsx_path = "core_fine_test_results.xlsx"
-log_path = "core_fine_test_progress.txt"
+jsonl_path = "cactus_results.jsonl"
+csv_path = "cactus_results.csv"
+log_path = "cactus_progress.txt"
 
 class Logger(object):
     def __init__(self, filename):
@@ -344,17 +317,10 @@ async def main():
             global config
 
             config = default_config
-            row["patient_gender"] = await func_call(assign_gender, session, row) 
-            row["patient_name"] = random_name(row)
-            row["patient_age"] = await func_call(assign_age, session, row)
-            row["patient_marital_status"] = await func_call(assign_marital_status, session, row)
-            row["patient_occupation"] = await func_call(assign_occupation, session, row)
-            row["patient_education"] = await func_call(assign_education, session, row)
+            row["situation"] = await func_call(situation, session, row)
             row["intermediate_beliefs"] = await func_call(intermediate_beliefs, session, row)
             config = conversation_config
             row["conversational_styles"] = await func_call(conversational_styles, session, row)
-
-            print(row)
 
             row_dict = row.to_dict()
             results.append(row_dict)

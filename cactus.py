@@ -7,8 +7,6 @@ from ollama import Client
 import traceback
 import json
 import requests
-import aiohttp
-import asyncio
 
 client = Client(host='http://localhost:11434')
 
@@ -24,7 +22,6 @@ df = df.drop_duplicates(subset=cols_except, keep="first")
 
 df.reset_index(drop=True, inplace=True)
 
-
 df["conversational_styles"]=None #LLM
 df["patient_ID"]=df.index+1000 #auto assign from 1000
 df["patient_name"]=None #regex
@@ -39,8 +36,6 @@ df["situation"]=None # LLM
 df.rename(columns={"patterns":"core_beliefs",
                    "thought":"automatic_thoughts",
                    "intake_form": "patient_context"}, inplace=True)
-
-
 
 desired_order = [
     "patient_ID",
@@ -153,37 +148,39 @@ ascii_schema = {
   "additionalProperties": False
 }
 
-async def call_llm(session, prompt: str) -> str:
+def call_llm(prompt: str) -> str:
     payload = {
         "model": MODEL,
         "messages": [
             {"role": "system", "content": "You are an assistant that follows the instructions given by the user. Return ONLY JSON matching the schema."},
             {"role": "user", "content": prompt},
         ],
-        "format": ascii_schema,
+        "format": ascii_schema,   # can be 'json' or a JSON schema
         "stream": False,
-        "options": {"temperature": temperature,
-                    "top_p": top_p,
-                    "top_k": top_k},
+        "options": {
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+        },
     }
 
-    async with session.post(f"{BASE_URL}/api/chat", json=payload, timeout=120) as resp:
-        resp.raise_for_status()
-        data = await resp.json()
-    
+    r = requests.post(f"{BASE_URL}/api/chat", json=payload, timeout=120)
+    r.raise_for_status()
+    data = r.json()
+
     content = data["message"]["content"]
     obj = json.loads(content)
     return obj["text"]
 
-async def situation(session, row):
+def situation(row):
     prompt = (
-        # f"Patient story:\n{row.get('patient_context', '')}\n\n"
+        f"Patient story:\n{row.get('patient_context', '')}\n\n"
         f"Core beliefs:\n{row.get('core_beliefs', '')}\n\n"
         f"Automatic thoughts:\n{row.get('automatic_thoughts', '')}\n\n"
         "Based on the above, extract a concise, factual description of the situation as experienced by the patient. Do not include emotions, judgments, or interpretations. Only describe what happened. Write the situation in first person as the patient. "
         "Only output the situation as a string, nothing else."
     )
-    llm_response = await call_llm(session, prompt)
+    llm_response = call_llm(prompt)
     if llm_response:
         result = llm_response.strip()
     else:
@@ -193,7 +190,7 @@ async def situation(session, row):
     print(result)
     return result
     
-async def intermediate_beliefs(session, row):
+def intermediate_beliefs(row):
     prompt = (
         f"Patient story:\n{row.get('patient_context', '')}\n\n"
         f"Core beliefs:\n{row.get('core_beliefs', '')}\n\n"
@@ -202,7 +199,7 @@ async def intermediate_beliefs(session, row):
         "Based on the above, generate a concise intermediate belief consistent with the thought and core beliefs to construct a cognitive model of the patient. "
         "Only output the intermediate beliefs as a string, nothing else."
     )
-    llm_response = await call_llm(session, prompt)
+    llm_response =  call_llm(prompt)
     if llm_response:
         result = llm_response.strip()
     else:
@@ -214,7 +211,7 @@ async def intermediate_beliefs(session, row):
 
 
 
-async def conversational_styles(session, row):
+def conversational_styles(row):
     prompt = f"""
 You are labeling "conversational style" for a therapy intake transcript.
 
@@ -237,7 +234,7 @@ Core beliefs:
 Automatic thoughts:
 {row.get('automatic_thoughts', '')}
 
-Age: {row.get('patient_age', '')}
+Patient Info, Age: {row.get('patient_age', '')}, Gender: {row.get('patient_gender', '')},  Education: {row.get('patient_education', '')}, Occupation: {row.get('patient_occupation', '')}
 
 TASK:
 Return only a comma-separated list of 3-7 styles from the allowed list.
@@ -246,7 +243,7 @@ No extra words, no quotes, no punctuation except commas.
 OUTPUT:
 <styles>style1, style2, style3</styles>
 """
-    llm_response = await call_llm(session, prompt)
+    llm_response =  call_llm(prompt)
     if llm_response:
         result = llm_response.strip()
     else:
@@ -259,9 +256,9 @@ OUTPUT:
 
 error_log_path = "error_log.txt"
 
-async def func_call(func, session, row):
+def func_call(func, row):
     try:
-        return await func(session, row)
+        return  func(row)
     except Exception as e:
         with open(error_log_path, "a") as f:
             f.write(f"Error in row {row.name}:\n{traceback.format_exc()}\n\n")
@@ -287,11 +284,9 @@ class Logger(object):
 sys.stdout = Logger(log_path)
 results = []
 
-async def main():
+def main():
         
-    async with aiohttp.ClientSession() as session:
-
-        for idx, row in df.iterrows():
+    for idx, row in df.iterrows():
             # --- Your LLM and assignment functions here ---
             global temperature
             temperature = 0.4
@@ -299,13 +294,12 @@ async def main():
             top_p = 0.9
             global top_k
             top_k = 40
-            while row["situation"] is None:
-                row["situation"] = await func_call(situation, session, row)
-            # row["intermediate_beliefs"] = await func_call(intermediate_beliefs, session, row)
+            row["situation"] =  func_call(situation, row)
+            row["intermediate_beliefs"] =  func_call(intermediate_beliefs, row)
             temperature=0.6
             top_p=0.95
             top_k=20
-            # row["conversational_styles"] = await func_call(conversational_styles, session, row)
+            row["conversational_styles"] =  func_call(conversational_styles, row)
             
             if row["situation"] is None:
                 print("Did not return")
@@ -322,7 +316,7 @@ async def main():
 
             print(f"Processed row {row.name}/{len(df)}: {row_dict.get('patient_ID', '')}")
 
-asyncio.run(main())
+main()
 
 print("Processing complete.")
 
