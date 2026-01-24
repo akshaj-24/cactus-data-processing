@@ -311,7 +311,7 @@ def main():
             with open(jsonl_path, "a") as f_jsonl:
                 f_jsonl.write(json.dumps(row_dict) + "\n")
 
-            # --- Save to CSV ---
+            # --- Save to CSV ---b
             pd.DataFrame([row_dict]).to_csv(csv_path, mode="a", header=(idx==0), index=False)
 
             print(f"Processed row {row.name}/{len(df)}: {row_dict.get('patient_ID', '')}")
