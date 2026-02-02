@@ -1,365 +1,238 @@
-Error in row 0:
+Error in row 448:
 Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
-    return await func(session, row)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 182, in situation
-    llm_response = await call_llm(session, prompt)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 145)
-
-
-Error in row 3:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
-    return await func(session, row)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 182, in situation
-    llm_response = await call_llm(session, prompt)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 67)
-
-
-Error in row 3:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
-    return await func(session, row)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 247, in conversational_styles
-    llm_response = await call_llm(session, prompt)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 102)
-
-
-Error in row 21:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
-    return await func(session, row)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 201, in intermediate_beliefs
-    llm_response = await call_llm(session, prompt)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 117)
-
-
-Error in row 29:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
-    return await func(session, row)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 201, in intermediate_beliefs
-    llm_response = await call_llm(session, prompt)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 205)
-
-
-Error in row 29:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
-    return await func(session, row)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 247, in conversational_styles
-    llm_response = await call_llm(session, prompt)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 116)
-
-
-Error in row 12:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
-    return await func(session, row)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 182, in situation
-    llm_response = await call_llm(session, prompt)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 127)
-
-
-Error in row 0:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
-    return await func(session, row)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 182, in situation
-    llm_response = await call_llm(session, prompt)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
-    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 353, in raw_decode
-    obj, end = self.scan_once(s, idx)
-               ^^^^^^^^^^^^^^^^^^^^^^
-json.decoder.JSONDecodeError: Expecting ',' delimiter: line 3 column 141 (char 143)
-
-
-Error in row 3:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 262, in func_call
-    return await func(session, row)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 182, in situation
-    llm_response = await call_llm(session, prompt)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 171, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 71)
-
-
-Error in row 1:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 183, in situation
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
     llm_response = call_llm(prompt)
                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 5 column 1 (char 72)
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
 
 
-Error in row 0:
+Error in row 169:
 Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 183, in situation
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
     llm_response = call_llm(prompt)
                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 147)
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
 
 
-Error in row 0:
+Error in row 530:
 Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 246, in conversational_styles
-    llm_response =  call_llm(prompt)
-                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 101)
-
-
-Error in row 1:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 246, in conversational_styles
-    llm_response =  call_llm(prompt)
-                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 122)
-
-
-Error in row 2:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 246, in conversational_styles
-    llm_response =  call_llm(prompt)
-                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 118)
-
-
-Error in row 4:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 246, in conversational_styles
-    llm_response =  call_llm(prompt)
-                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 100)
-
-
-Error in row 0:
-Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 183, in situation
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
     llm_response = call_llm(prompt)
                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 1930)
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
 
 
-Error in row 0:
+Error in row 802:
 Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 246, in conversational_styles
-    llm_response =  call_llm(prompt)
-                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 110)
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
 
 
-Error in row 1:
+Error in row 1327:
 Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 202, in intermediate_beliefs
-    llm_response =  call_llm(prompt)
-                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 4 column 1 (char 166)
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
 
 
-Error in row 1:
+Error in row 1552:
 Traceback (most recent call last):
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 261, in func_call
-    return  func(row)
-            ^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 246, in conversational_styles
-    llm_response =  call_llm(prompt)
-                    ^^^^^^^^^^^^^^^^
-  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 172, in call_llm
-    obj = json.loads(content)
-          ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
-    return _default_decoder.decode(s)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/json/decoder.py", line 340, in decode
-    raise JSONDecodeError("Extra data", s, end)
-json.decoder.JSONDecodeError: Extra data: line 5 column 1 (char 109)
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 1893:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 1902:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 1915:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 2455:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 2472:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 2818:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 2832:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 3309:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 3383:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 3695:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 333, in situation
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+
+Error in row 3261:
+Traceback (most recent call last):
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 489, in safe_apply
+    result = func(row)
+             ^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 372, in intermediate_beliefs
+    llm_response = call_llm(prompt)
+                   ^^^^^^^^^^^^^^^^
+  File "/home/akshajs/Desktop/CCD-data/cactus.py", line 292, in call_llm
+    match = match.group(1).strip()
+            ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
 
 
